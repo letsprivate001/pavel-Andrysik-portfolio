@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Withdraw your funds securely with our easy-to-use platform">
+    <title id="pageTitle">Withdraw Funds</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Language Toggle */
+        .language-toggle {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        
+        .lang-btn {
+            background: transparent;
+            border: none;
+            padding: 6px 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .lang-btn.active {
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--primary);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .lang-btn:not(.active):hover {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+        :root {
+            --primary: #7b1fa2;
+            --secondary: #9c27b0;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --success: #4caf50;
+            --error: #f44336;
+            --warning: #ff9800;
+            --glass: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --glass-hover: rgba(255, 255, 255, 0.15);
+            --text-primary: rgba(255, 255, 255, 0.95);
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-tertiary: rgba(255, 255, 255, 0.5);
+            --gradient-primary: linear-gradient(135deg, #7b1fa2, #9c27b0);
+            --gradient-error: linear-gradient(135deg, #f44336, #e91e63);
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --border-radius: 14px;
+            --border-radius-sm: 8px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .withdraw-container {
+            background: rgba(30, 30, 50, 0.5);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            padding: 2.5rem 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 500px;
+            margin: 1.5rem 0;
+            transition: var(--transition);
+            border: 1px solid var(--glass-border);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .withdraw-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #7b1fa2, #9c27b0, #e91e63);
+            background-size: 200% 200%;
+            animation: gradientBG 3s ease infinite;
+        }
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .withdraw-container h2 {
+            text-align: center;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.7rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.92rem;
+            letter-spacing: 0.3px;
+            transition: color 0.2s ease;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 15px 18px;
+            border: 1px solid var(--glass-border);
+            border-radius: var(--border-radius-sm);
+            font-size: 0.95rem;
+            transition: var(--transition);
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text-primary);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            height: 52px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+        
+        .form-control:not(textarea) {
+            line-height: 1.2;
+        }
+        
+        .form-control::placeholder {
+            color: var(--text-tertiary);
+            font-weight: 400;
+            opacity: 1;
+        }
+        
+        .form-control:focus {
+            border-color: rgba(156, 39, 176, 0.6);
+            box-shadow: 0 0 0 3px rgba(156, 39, 176, 0.2);
+            outline: none;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Add checkmark for valid inputs */
+        .form-control:valid + .checkmark {
+            opacity: 1;
+            transform: translateY(-50%) scale(1);
+        }
+        
+        .checkmark {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%) scale(0.9);
+            color: var(--success);
+            opacity: 0;
+            transition: var(--transition);
+            font-size: 1.1rem;
+            pointer-events: none;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(123, 31, 162, 0.2);
+            outline: none;
+        }
+
+        /* Button Styles */
+        .btn {
+            width: 100%;
+            padding: 16px 24px;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius-sm);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 1.5rem;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(123, 31, 162, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            z-index: 1;
+            height: 52px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #9c27b0, #7b1fa2);
+            opacity: 0;
+            z-index: -1;
+            transition: var(--transition);
+            border-radius: var(--border-radius-sm);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(123, 31, 162, 0.4);
+        }
+        
+        .btn:hover::before {
+            opacity: 1;
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 15px rgba(123, 31, 162, 0.3);
+        }
+        
+        .btn:disabled {
+            background: rgba(255, 255, 255, 0.1) !important;
+            color: rgba(255, 255, 255, 0.4);
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none;
+            border-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        .btn .button-text {
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn:not(:disabled):hover .button-text {
+            transform: translateX(3px);
+        }
+        
+        .btn .button-loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+        }
+        
+        .btn.loading .button-text {
+            visibility: hidden;
+        }
+        
+        .btn.loading .button-loading {
+            display: block;
+        }
+
+        /* Footer */
+        .footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background: rgba(123, 25, 125, 0.9);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 12px 0;
+            z-index: 1000;
+        }
+
+        .footer-button {
+            background: none;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .footer-button:hover {
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .footer-button img {
+            width: 30px;
+            height: 30px;
+            margin-bottom: 4px;
+        }
+
+        /* Error Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: rgba(40, 40, 60, 0.9);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            width: 100%;
+            max-width: 480px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            transform: translateY(30px) scale(0.98);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0) scale(1);
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .modal-header h3 {
+            color: #ff6b6b;
+            font-size: 1.6rem;
+            margin: 0;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-body {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            font-size: 1.05rem;
+        }
+
+        .modal-body p {
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .transaction-details {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: var(--border-radius-sm);
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .transaction-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+        }
+        
+        .transaction-row:last-child {
+            margin-bottom: 0;
+            padding-top: 0.75rem;
+            margin-top: 0.75rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .transaction-label {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .transaction-value {
+            color: white;
+            font-weight: 600;
+            text-align: right;
+        }
+        
+        .copy-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-left: 8px;
+            transition: all 0.2s ease;
+        }
+        
+        .copy-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .copy-btn i {
+            font-size: 0.9em;
+        }
+
+        /* Close Button */
+        .btn-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.25rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            z-index: 10;
+        }
+        
+        .btn-close:hover {
+            background: rgba(255, 99, 99, 0.2);
+            color: #ff6b6b;
+            transform: rotate(90deg) scale(1.1);
+            border-color: rgba(255, 107, 107, 0.3);
+        }
+        
+        /* Loading Spinner */
+        .spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            display: inline-block;
+            margin-left: 10px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+        }
+
+        /* Water effect */
+        .water-effect {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+
+        .water-effect::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                45deg,
+                rgba(255, 255, 255, 0.1) 0%,
+                rgba(255, 255, 255, 0.3) 50%,
+                rgba(255, 255, 255, 0.1) 100%
+            );
+            background-size: 200% 200%;
+            animation: waterShine 3s infinite;
+            z-index: 1;
+        }
+
+        @keyframes waterShine {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 480px) {
+            .withdraw-container {
+                padding: 1.25rem;
+                margin: 0.5rem 0 5rem;
+            }
+
+            .modal-overlay {
+                padding: 1rem 0.75rem;
+                align-items: flex-start;
+            }
+
+            .modal-content {
+                padding: 1.23rem;
+                max-height: 90vh;
+            }
+
+            .modal-body {
+                font-size: 1rem;
+                line-height: 1.3;
+            }
+
+            .modal-body ul {
+                margin: 0.75rem 0 0.73rem 0.6rem;
+            }
+
+            .modal-body li {
+                margin-bottom: 0.3rem;
+                word-break: break-word;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="withdraw-container">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <div>
+                <h2 id="withdrawTitle" style="color: white; font-size: 1.4rem; font-weight: 600; margin: 0;">Withdraw Funds</h2>
+               
+            </div>
+            <div class="language-toggle">
+                <button id="langToggle" class="lang-btn" data-lang="en" title="English">
+                    <i class="fas fa-globe"></i> EN
+                </button>
+                <button id="langToggleEs" class="lang-btn active" data-lang="es" title="Español">
+                    <i class="fas fa-globe"></i> ES
+                </button>
+            </div>
+        </div>
+        <form id="withdrawForm" style="margin-top: 1rem;">
+            <div class="form-group" style="margin-bottom: 1.5rem;">
+                <label for="bank-name" data-en="Bank Name" data-es="Nombre del banco" style="color: rgba(255, 255, 255, 0.9); font-size: 0.9rem; margin-bottom: 0.6rem; display: block;">
+                    <i class="fas fa-university" style="margin-right: 8px;"></i>
+                    <span>Bank Name</span>
+                </label>
+                <div style="position: relative;">
+                    <input type="text" id="bank-name" class="form-control" placeholder="e.g. Santander, BBVA" required>
+                    <i class="fas fa-check-circle" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: #4CAF50; opacity: 0; transition: opacity 0.3s ease;"></i>
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 1.5rem;">
+                <label for="account-name" data-en="Account Name" data-es="Nombre de la cuenta" style="color: rgba(255, 255, 255, 0.9); font-size: 0.9rem; margin-bottom: 0.6rem; display: block;">
+                    <i class="fas fa-user" style="margin-right: 8px;"></i>
+                    <span>Account Name</span>
+                </label>
+                <div style="position: relative;">
+                    <input type="text" id="account-name" class="form-control" placeholder="e.g. John Doe" required>
+                    <i class="fas fa-check-circle" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: #4CAF50; opacity: 0; transition: opacity 0.3s ease;"></i>
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 1.5rem;">
+                <label for="account-number" data-en="Account Number" data-es="Número de cuenta" style="color: rgba(255, 255, 255, 0.9); font-size: 0.9rem; margin-bottom: 0.6rem; display: block;">
+                    <i class="fas fa-credit-card" style="margin-right: 8px;"></i>
+                    <span>Account Number</span>
+                </label>
+                <div style="position: relative;">
+                    <input type="text" id="account-number" class="form-control" placeholder="e.g. 1234 5678 9012 3456" required>
+                    <i class="fas fa-check-circle" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: #4CAF50; opacity: 0; transition: opacity 0.3s ease;"></i>
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 1.5rem;">
+                <label for="swift-iban" data-en="SWIFT/IBAN" data-es="Código SWIFT/IBAN" style="color: rgba(255, 255, 255, 0.9); font-size: 0.9rem; margin-bottom: 0.6rem; display: block;">
+                    <i class="fas fa-barcode" style="margin-right: 8px;"></i>
+                    <span>SWIFT/IBAN</span>
+                </label>
+                <div style="position: relative;">
+                    <input type="text" id="swift-iban" class="form-control" placeholder="e.g. ES91 2100 0418 4502 0005 1332" required>
+                    <i class="fas fa-check-circle" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: #4CAF50; opacity: 0; transition: opacity 0.3s ease;"></i>
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 2rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem;">
+                    <label for="amount" data-en="Amount (€)" data-es="Cantidad (€)" style="color: rgba(255, 255, 255, 0.9); font-size: 0.9rem; margin: 0;">
+                        <i class="fas fa-euro-sign" style="margin-right: 8px;"></i>
+                        <span>Amount</span>
+                    </label>
+                    <span style="color: rgba(255, 255, 255, 0.7); font-size: 0.85rem;">
+                        <span data-en="Available:" data-es="Disponible:">Available:</span> 
+                        <span id="available-balance">€108,529.00</span>
+                    </span>
+                </div>
+                <div style="position: relative;">
+                    <input type="number" id="amount" class="form-control" placeholder="0.00" min="1" step="0.01" required
+                           style="padding-left: 2.5rem; font-size: 1.2rem; font-weight: 500; height: 60px;">
+                    <span style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); font-size: 1.2rem; color: #666;">€</span>
+                  
+                </div>
+                
+            </div>
+
+
+            <button type="submit" id="withdraw" class="btn" style="margin-top: 2rem;">
+                <span class="button-text">
+                    <i class="fas fa-paper-plane"></i>
+                    <span data-en="Process Withdrawal" data-es="Procesar Retiro">Process Withdrawal</span>
+                </span>
+                <div class="button-loading">
+                    <div class="spinner"></div>
+                    <span class="loading-text" data-en="Processing..." data-es="Procesando...">Processing...</span>
+                </div>
+            </button>
+            
+            <p style="text-align: center; margin-top: 1rem; color: rgba(255, 255, 255, 0.7); font-size: 0.8rem;">
+                <i class="fas fa-lock" style="margin-right: 5px;"></i>
+                <span data-en="Your transactions are secured with 256-bit encryption" data-es="Tus transacciones están aseguradas con cifrado de 256 bits">
+                    Your transactions are secured with 256-bit encryption
+                </span>
+            </p>
+        </form>
+    </div>
+
+    <!-- Error Modal -->
+    <div class="modal-overlay" id="errorModal">
+        <div class="modal-content water-effect">
+            <button class="btn-close" onclick="closeErrorModal()">&times;</button>
+            <div class="modal-header">
+                <h3 id="modalTitle">
+                    <i class="fas fa-exclamation-triangle" style="margin-right: 10px;"></i>
+                    <span data-en="Transfer Failed" data-es="Transferencia Fallida">Transfer Failed</span>
+                </h3>
+                <p style="color: rgba(255,255,255,0.7); font-size: 0.95rem; margin-top: 0.5rem;">
+                    <span data-en="insufficient transfer fee coverage" data-es="insufficient transfer fee coverage"> insufficient transfer fee coverage</span>
+                </p>
+            </div>
+            <div class="modal-body">
+                <div class="transaction-details">
+                    <div class="transaction-row">
+                        <span class="transaction-label" data-en="Amount" data-es="Cantidad">Amount</span>
+                        <span class="transaction-value">€<span id="transferAmount">0</span></span>
+                    </div>
+                    <div class="transaction-row">
+                        <span class="transaction-label" data-en="Fee (1.5%)" data-es="Comisión (1.5%)">Fee (1.5%)</span>
+                        <span class="transaction-value" id="feeAmount">€0.00</span>
+                    </div>
+                   
+                </div>
+
+                 <div style="text-align: center; margin-top: 1rem;">
+                    <li><strong data-en="Reason for Failure:" data-es="Motivo del fallo:">Reason for Failure:</strong> <span data-en="Transfer fee not covered" data-es="Tarifa de transferencia no cubierta">Transfer fee not covered</span></li>
+                    <li><strong data-en="Required Transfer Fee:" data-es="Tarifa de transferencia requerida:">Required Transfer Fee:</strong> €4,800</li>
+                    <li><strong data-en="Status:" data-es="Estado:">Status:</strong> <span data-en="Pending until full fee is settled" data-es="Pendiente hasta que se liquide el monto total">Pending until full fee is settled</span></li>
+                </ul>
+                <p data-en="Please ensure the required fee of €4,800 is paid in order to complete the transaction. Once the fee is cleared, the transfer will be re-processed automatically." 
+                   data-es="Por favor, asegúrese de que se pague la tarifa requerida de €4,800 para completar la transacción. Una vez que se liquide la tarifa, la transferencia se volverá a procesar automáticamente.">
+                    Please ensure the required fee of €4,800 is paid in order to complete the transaction. Once the fee is cleared, the transfer will be re-processed automatically.
+                </p>
+                <p data-en="For assistance, kindly contact our support team." 
+                   data-es="Para asistencia, por favor contacte a nuestro equipo de soporte.">
+                    For assistance, kindly contact our support team.
+                </p>
+            </div>
+                
+                <div class="reference-number" style="background: rgba(0,0,0,0.2); border-radius: 8px; margin-top: 1.5rem; text-align: center;">
+                    <div style="font-size: 0.85rem; color: rgba(255,255,255,0.6); margin-bottom: 5px;" 
+                         data-en="Reference ID" data-es="ID de referencia">
+                        Reference ID
+                    </div>
+                    <div style="font-family: 'Courier New', monospace; color: #fff; font-weight: 600; font-size: 0.95rem; word-break: break-all;">
+                        0xb7c5d2f19e48c0fba913a62d4783e1df4a55ef9287b1cc739ef08c53124c5e88
+                    </div>
+                    <button class="copy-btn" onclick="copyReferenceId()" style="margin-top: 8px;">
+                        <i class="far fa-copy"></i>
+                        <span data-en="Copy" data-es="Copiar">Copy</span>
+                    </button>
+                </div>
+            </div>
+           
+        </div>
+    </div>
+
+    <!-- <div id="noti" style="color: white; position: absolute; bottom: 100px; background-color: #410a5b; padding: 20px; margin: 0 10px; ">
+        <img src="stock-vector--d-vector-yellow-warning-sign-with-exclamation-mark-concept-eps-vector-2196561307-removebg-preview.png" alt="" width="60px" style="display: flex; justify-content: center; text-align: center; margin: 0 auto; padding-top: 40px;">
+
+        
+        <div style="margin: 20px 0; text-align: center; ">You are to pay a charge of $500 before you can withdraw your money successfully!</div>
+
+
+        <div style="font-size: 12px; color: #d5cfcf;">Contact your onboard Manager on how to make the payment for a successful Transfer and Withdrawal of Giveaway Funds.
+        </div>
+    </div> -->
+
+     <footer class="footer">
+      <button class="footer-button">
+        <a href="earning.html" class="flex flex-col items-center">
+          <!-- <p><img src="buy-a-house.png" width="20px"></p> -->
+          <p><img src="real-estate-unscreen.gif" width="40px" /></p>
+          <p>HOME</p>
+        </a>
+      </button>
+      <button class="footer-button">
+        <a href="#" class="flex flex-col items-center">
+          <!-- <p><img src="earn-money.png" width="30px"></p> -->
+          <p><img src="earn-money-unscreen.gif" width="40px" /></p>
+          <p>EARN</p>
+        </a>
+      </button>
+      <button class="footer-button">
+        <a href="earning.html" class="flex flex-col items-center">
+          <p><img src="add-user-unscreen.gif" width="40px" /></p>
+          <p>INVITE</p>
+        </a>
+      </button>
+    </footer>
+
+
+        <script>
+        // Language support
+        const translations = {
+            en: {
+                pageTitle: 'Withdraw Funds',
+                withdrawTitle: 'Withdraw Funds',
+                bankName: 'Bank Name',
+                accountName: 'Account Name',
+                accountNumber: 'Account Number',
+                swiftIban: 'SWIFT Code or IBAN',
+                amount: 'Amount (€)',
+                processWithdrawal: 'Process Withdrawal',
+                transferFailed: 'Transfer Status: FAILED',
+                dearCustomer: 'Dear Customer,',
+                transferUnsuccessful: 'Your recent transfer request has been unsuccessful. The transaction could not be processed due to insufficient transfer fee coverage.',
+                transactionRef: 'Transaction Reference/hash Number:',
+                amountToTransfer: 'Amount to Transfer:',
+                reasonForFailure: 'Reason for Failure:',
+                transferFeeNotCovered: 'Transfer fee not covered',
+                requiredFee: 'Required Transfer Fee:',
+                status: 'Status:',
+                pendingStatus: 'Pending until full fee is settled',
+                ensureFee: 'Please ensure the required fee of €4,800 is paid in order to complete the transaction. Once the fee is cleared, the transfer will be re-processed automatically.',
+                contactSupport: 'For assistance, kindly contact our support team.'
+            },
+            es: {
+                pageTitle: 'Retirar Fondos',
+                withdrawTitle: 'Retirar Fondos',
+                bankName: 'Nombre del banco',
+                accountName: 'Nombre de la cuenta',
+                accountNumber: 'Número de cuenta',
+                swiftIban: 'Código SWIFT o IBAN',
+                amount: 'Cantidad (€)',
+                processWithdrawal: 'Procesar Retiro',
+                transferFailed: 'Estado de la transferencia: FALLIDA',
+                dearCustomer: 'Estimado Cliente,',
+                transferUnsuccessful: 'Su solicitud de transferencia reciente no ha tenido éxito. La transacción no pudo procesarse debido a una cobertura insuficiente de la tarifa de transferencia.',
+                transactionRef: 'Número de referencia/hash de transacción:',
+                amountToTransfer: 'Monto a Transferir:',
+                reasonForFailure: 'Motivo del fallo:',
+                transferFeeNotCovered: 'Tarifa de transferencia no cubierta',
+                requiredFee: 'Tarifa de transferencia requerida:',
+                status: 'Estado:',
+                pendingStatus: 'Pendiente hasta que se liquide el monto total',
+                ensureFee: 'Por favor, asegúrese de que se pague la tarifa requerida de €4,800 para completar la transacción. Una vez que se liquide la tarifa, la transferencia se volverá a procesar automáticamente.',
+                contactSupport: 'Para asistencia, por favor contacte a nuestro equipo de soporte.'
+            }
+        };
+
+        // Set initial language
+        let currentLang = 'en';
+
+        // Function to update the page content based on selected language
+        function updateContent(lang) {
+            currentLang = lang;
+            
+            // Update page title
+            document.getElementById('pageTitle').textContent = translations[lang].pageTitle;
+            document.getElementById('withdrawTitle').textContent = translations[lang].withdrawTitle;
+            
+            // Update form labels and placeholders
+            document.querySelectorAll('[data-en]').forEach(element => {
+                if (element.dataset[lang] !== undefined) {
+                    if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                        element.placeholder = element.dataset[lang];
+                    } else {
+                        element.textContent = element.dataset[lang];
+                    }
+                }
+            });
+            
+            // Update button text
+            const submitBtn = document.querySelector('#withdraw span');
+            if (submitBtn) submitBtn.textContent = translations[lang].processWithdrawal;
+            
+            // Update modal content
+            const modalTitle = document.querySelector('.modal-header h3');
+            if (modalTitle) modalTitle.textContent = translations[lang].transferFailed;
+            
+            // Save language preference
+            localStorage.setItem('preferredLanguage', lang);
+            
+            // Update active state of language buttons
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                if (btn.dataset.lang === lang) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load saved language preference or default to Spanish
+            const savedLang = localStorage.getItem('preferredLanguage') || 'es';
+            updateContent(savedLang);
+            
+            // Add click event listeners to language toggle buttons
+            document.querySelectorAll('.lang-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const lang = this.dataset.lang;
+                    if (lang !== currentLang) {
+                        updateContent(lang);
+                    }
+                });
+            });
+            const form = document.getElementById('withdrawForm');
+            const errorModal = document.getElementById('errorModal');
+            const closeModal = document.getElementById('closeModal');
+            const transferAmount = document.getElementById('transferAmount');
+
+            // Show error modal
+            function showErrorModal(amount) {
+                transferAmount.textContent = amount || '0';
+                errorModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            // Close modal
+            window.closeErrorModal = function() {
+                const errorModal = document.getElementById('errorModal');
+                errorModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+
+
+            // Copy reference ID to clipboard
+            function copyReferenceId() {
+                const referenceId = document.getElementById('referenceId').textContent;
+                navigator.clipboard.writeText(referenceId).then(() => {
+                    const copyBtn = document.querySelector('.copy-btn');
+                    const originalText = copyBtn.innerHTML;
+                    copyBtn.innerHTML = '<i class="fas fa-check"></i> <span data-en="Copied!" data-es="¡Copiado!">Copied!</span>';
+                    setTimeout(() => {
+                        copyBtn.innerHTML = originalText;
+                    }, 2000);
+                });
+            }
+
+            // Format amount with 2 decimal places
+            function formatAmount(amount) {
+                return parseFloat(amount).toFixed(2);
+            }
+
+            // Calculate fee and net amount
+            function calculateAmounts(amount) {
+                const fee = (parseFloat(amount) * 0.015).toFixed(2);
+                const netAmount = (parseFloat(amount) - parseFloat(fee)).toFixed(2);
+                return { fee, netAmount };
+            }
+
+            // Form submission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const amount = document.getElementById('amount').value || '0';
+                const fee = '4800';
+                
+                // Update modal with transaction details
+                document.getElementById('transferAmount').textContent = amount;
+                document.getElementById('feeAmount').textContent = `€${fee}`;
+                
+                // Show the modal
+                showErrorModal(amount);
+                
+                // Reset form
+                form.reset();
+            });
+
+            // Close modal when clicking the close button
+            closeModal.addEventListener('click', closeErrorModal);
+
+            // Close modal when clicking outside the modal content
+            errorModal.addEventListener('click', function(e) {
+                if (e.target === errorModal) {
+                    closeErrorModal();
+                }
+            });
+
+            // Close modal with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeErrorModal();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

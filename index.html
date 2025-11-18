@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pavel Andrysik 
+</title>
+    
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Pavel Andrysik 
+ - Secure Access">
+    <meta name="description" content="Secure login portal for Pavel Andrysik 
+'s financial dashboard">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Pavel Andrysik 
+ - Secure Access">
+    <meta property="og:description" content="Secure login portal for Pavel Andrysik 
+'s financial dashboard">
+    <meta property="og:image" content="eurfake.png">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+   
+    <meta property="twitter:title" content="Pavel Andrysik 
+ - Secure Access">
+    <meta property="twitter:description" content="Secure login portal for Pavel Andrysik 
+'s financial dashboard">
+    <meta property="twitter:image" content="eurfake.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #8e44ad;
+            --secondary-color: #9b59b6;
+            --accent-color: #e74c3c;
+            --text-color: #2c3e50;
+            --light-bg: #f8f9fa;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #8e44ad, #9b59b6);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 420px;
+            width: 100%;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+        
+        input[type="number"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+        
+        input[type="number"]:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(142, 68, 173, 0.2);
+        }
+        
+        button {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="wallet-svgrepo-com.png" alt="Wallet Icon" class="logo">
+        <h1>Welcome Back</h1>
+        <form id="authForm">
+            <div class="form-group">
+                <label for="numberInput">Enter Your Access Code</label>
+                <input type="number" id="numberInput" placeholder="Enter code" required>
+            </div>
+            <button type="submit" id="checkButton">Continue</button>
+        </form>
+    </div>
+
+
+
+    <script>
+        document.getElementById('authForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const inputValue = document.getElementById('numberInput').value;
+            const submitButton = document.getElementById('checkButton');
+            
+            // Add loading state
+            submitButton.disabled = true;
+            submitButton.textContent = 'Verifying...';
+            
+            // Simulate network delay
+            setTimeout(() => {
+                if (inputValue === "1030") {
+                    // Add success animation before redirect
+                    document.querySelector('.container').style.animation = 'fadeIn 0.3s ease-out reverse';
+                    setTimeout(() => {
+                        window.location.href = 'earning.html';
+                    }, 300);
+                } else {
+                    // Shake animation for error
+                    const container = document.querySelector('.container');
+                    container.style.animation = 'shake 0.5s';
+                    setTimeout(() => {
+                        container.style.animation = '';
+                    }, 500);
+                    
+                    // Show error message
+                    let errorMsg = document.querySelector('.error-msg');
+                    if (!errorMsg) {
+                        errorMsg = document.createElement('p');
+                        errorMsg.className = 'error-msg';
+                        errorMsg.style.color = 'var(--accent-color)';
+                        errorMsg.style.marginTop = '1rem';
+                        errorMsg.style.fontSize = '0.9rem';
+                        document.querySelector('form').appendChild(errorMsg);
+                    }
+                    errorMsg.textContent = 'Incorrect code. Please try again.';
+                    
+                    // Reset button state
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Continue';
+                }
+            }, 800);
+        });
+        
+        // Add shake animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+                20%, 40%, 60%, 80% { transform: translateX(5px); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
