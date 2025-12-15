@@ -1,165 +1,787 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="styles.css" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <title>Pavel Andrysik 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Andrysik Capital | Blockchain Asset Management Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tabler Icons CDN for professional icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%);
+            --secondary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --accent-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --success-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            --dark-bg: #0a0b0e;
+            --card-bg: rgba(18, 21, 33, 0.85);
+            --border-color: rgba(64, 112, 244, 0.15);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-purple: #8b5cf6;
+            --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.4);
+            --shadow-xl: 0 25px 50px rgba(0, 0, 0, 0.5);
+        }
 
-</title>
-  </head>
-  <body>
-    <section
-      style="
-        color: rgb(255, 255, 255);
-        background-color: #0007112f;
-        border: 1px solid white;
-        margin-bottom: 9px;
-      "
-      class=""
-    >
-      <div class="px-3 rounded-sm flex justify-between my-3">
-        <p style="font-size: 14px">
-          <span id="firstname" style="font-weight: 700; font-size: 13px">
-            Pavel Andrysik 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-          </span>
-          <span id="lastname" style="font-weight: 700; font-size: 19px"></span>
-          <br />
-          <span>ID: <span id="userid">711386132</span></span>
-        </p>
-        <p>
-          <span class="text-xs text-orange-400 absolute botton-16">soon!</span>
-          <!-- <img src="wallet-svgrepo-com.png" width="40px" /> -->
-          <img src="tmp-2400-hV33Ns67HImU--unscreen.gif" width="60px" />
-        </p>
-      </div>
-    </section>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding: 15px;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(28, 58, 173, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 20%);
+        }
 
-    <section>
-      <div class="dashboard">
-        <div>
-          <p style="font-size: 12px; margin-top: 20px">CURRENT BALANCE</p>
-          <div>
-            <div
-              style="
-                display: flex;
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header Section */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--primary-gradient);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .logo-text {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 28px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 0.5px;
+        }
+
+        .logo-subtitle {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+            font-weight: 500;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: var(--card-bg);
+            padding: 12px 24px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+        }
+
+        .user-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--secondary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 600;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .user-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--text-primary);
+        }
+
+        .user-role {
+            font-size: 14px;
+            color: var(--accent-blue);
+            font-weight: 600;
+        }
+
+        /* Dashboard Header */
+        .dashboard-header {
+            margin-bottom: 40px;
+        }
+
+        .dashboard-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            background: linear-gradient(90deg, #ffffff, #a5b4fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .dashboard-subtitle {
+            font-size: 18px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        /* Portfolio Overview */
+        .portfolio-overview {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 40px;
+            margin-bottom: 40px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-xl);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .portfolio-overview::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: var(--primary-gradient);
+            border-radius: 24px 24px 0 0;
+        }
+
+        .portfolio-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+
+        .portfolio-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .portfolio-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .action-btn {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            color: var(--accent-blue);
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-btn:hover {
+            background: rgba(59, 130, 246, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .portfolio-value {
+            display: flex;
+            align-items: baseline;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .value-amount {
+            font-size: 64px;
+            font-weight: 800;
+            font-family: 'Space Grotesk', sans-serif;
+            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
+        }
+
+        .value-currency {
+            font-size: 12px;
+            color: var(--accent-blue);
+            font-weight: 700;
+        }
+
+        .value-change {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+
+        .change-badge {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent-green);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .change-text {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        /* Blockchain Transaction */
+        .blockchain-transaction {
+            background: rgba(30, 41, 59, 0.6);
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 10px;
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .transaction-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .transaction-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .transaction-hash {
+            font-family: monospace;
+            font-size: 8px;
+            color: var(--accent-blue);
+            background: rgba(59, 130, 246, 0.1);
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .transaction-progress {
+            margin-bottom: 20px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: rgba(30, 41, 59, 0.8);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 65%;
+            background: var(--success-gradient);
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--secondary-gradient);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .stat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .stat-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent-blue);
+        }
+
+        .stat-icon.btc {
+            background: rgba(247, 147, 26, 0.1);
+            color: #f7931a;
+        }
+
+        .stat-icon.performance {
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--accent-purple);
+        }
+
+        .stat-icon.investments {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent-green);
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .stat-change {
+            font-size: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .positive {
+            color: var(--accent-green);
+        }
+
+        .negative {
+            color: #ef4444;
+        }
+
+        .stat-subtext {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-top: 8px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin: 0px;
+            padding-top: 40px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+
+        .footer-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-link:hover {
+            color: var(--accent-blue);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .value-amount {
+                font-size: 52px;
+            }
+            
+            .portfolio-header {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .portfolio-actions {
+                width: 100%;
+                justify-content: flex-start;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 14px;
+            }
+            
+            .value-amount {
+                font-size: 30px;
+            }
+            
+            .dashboard-title {
+                font-size: 24px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .user-info {
+                width: 100%;
                 justify-content: center;
-                align-items: center;
-              "
-            >
-              <p
-                style="
-                  width: 18px;
-                  height: 26px;
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                  border-radius: 40%;
-                  margin: 10px;
-                "
-              >
-                <img src="arrow-up-svgrepo-com (1).svg" width="22px" />
-                <span style="font-size: 24px; font-weight: 700">€</span>
-              </p>
-              <p>
-                <span
-                  class="earningcounter"
-                  style="font-size: 24px; font-weight: 700"
-                  >94,176,056.89
+            }
+        }
 
+        /* Animation for stats cards */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-                </span>
-                <span style="font-weight: 600; padding-left: 4px">BTC</span>
-              </p>
+        .stat-card {
+            animation: fadeInUp 0.6s ease forwards;
+            opacity: 0;
+        }
+
+        .stat-card:nth-child(1) { animation-delay: 0.1s; }
+        .stat-card:nth-child(2) { animation-delay: 0.2s; }
+        .stat-card:nth-child(3) { animation-delay: 0.3s; }
+        .stat-card:nth-child(4) { animation-delay: 0.4s; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <!-- <div class="logo">
+                <div class="logo-icon">
+                    <i class="ti ti-blockchain"></i>
+                </div>
+                <div>
+                    <div class="logo-text">AIGen CAPITAL</div>
+                    <div class="logo-subtitle">OneCoin ecosystem Management</div>
+                </div>
+            </div> -->
+            <div class="user-info">
+                <div class="user-avatar">PA</div>
+                <div class="user-details">
+                    <div class="user-name">Pavel Andrysik</div>
+                    <div class="user-role">OneCoin Ecosystem</div>
+                </div>
             </div>
-            <i></i>
-          </div>
-          <div
-            style="
-              background-color: rgb(148, 3, 141);
-              font-size: 12px;
-              font-weight: 600;
-              border-radius: 20px;
-              border: 1px solid white;
-              margin: 10px 20px;
-              padding: 4px;
-            "
-          >
-            <p style="padding: 8px 0">
-              EARNING RATE +€2,000.<span>00</span>
-              <span style="font-weight: 800; border: 1px solid white"
-                >€/min</span
-              >
-            </p>
-          </div>
         </div>
 
-        <!-- <div class="container">
-          <div class="header">
-            <marquee behavior="" direction="left"
-              >Dear Maria Magdalena Morse, welcome to your investment portfolio. We’re delighted to see you enjoy the benefits of our work. We remain committed to serving you with excellence</marquee
-            >
-          </div>
-          <div class="main">
-            <div class="next-grab-container">
-              <div class="next-grab-title">Not Available Now!</div>
-              <div id="countdown" class="countdown">01:00:00</div>
-              <div style="margin-bottom: 10px" id="bunny">
-                <span class="text-3xl claimbtn">
-                  Withdraw
-                </span>
-              </div>
-              <div class="ogc-value">Available at 80,000</div>
-             
+
+        <!-- Portfolio Overview -->
+        <div class="portfolio-overview">
+            <div class="portfolio-header">
+                <div class="portfolio-title">
+                    <i class="ti ti-chart-infographic"></i>
+                    Total Portfolio Value
+                </div>
+                <div class="portfolio-actions">
+                    <button class="action-btn">
+                        <i class="ti ti-refresh"></i>
+                        Refresh Data
+                    </button>
+                 
+                </div>
             </div>
-          </div>
-        </div> -->
-      </div>
-    </section>
+            
+            <div class="portfolio-value">
+                <div class="value-amount">€94,176,056.89</div>
+                <div class="value-currency">BTC</div>
+            </div>
+            
+            <div class="value-change">
+                <div class="change-badge">
+                    <i class="ti ti-trending-up"></i>
+                    +2.37% Today
+                </div>
+            
+            </div>
 
-    <!-- <footer class="footer">
-      <button class="footer-button">
-        <a href="#" class="flex flex-col items-center">
-       
-          <p><img src="real-estate-unscreen.gif" width="40px" /></p>
-          <p>HOME</p>
-        </a>
-      </button>
-      <button class="footer-button">
-        <a href="#" class="flex flex-col items-center">
+            <!-- Blockchain Transaction -->
+            <div class="blockchain-transaction">
+                <div class="transaction-header">
+                    <div class="transaction-title">
+                        <i class="ti ti-currency-bitcoin"></i>
+                        OneCoin Transaction Processing
+                    </div>
+                    <div class="transaction-hash">0x8a3f...c92d</div>
+                </div>
+                
+                <div class="transaction-progress">
+                    <div class="progress-info">
+                        <span>Confirming on OneCoin Mainnet</span>
+                        <span>65% Complete</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                </div>
+                
+              
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-title">24H Portfolio Performance</div>
+                    <div class="stat-icon">
+                        <i class="ti ti-chart-line"></i>
+                    </div>
+                </div>
+                <div class="stat-value">+ €2,184,430.15</div>
+                <div class="stat-change positive">
+                    <i class="ti ti-arrow-up-right"></i>
+                    <span>+2.37%</span>
+                </div>
+                <div class="stat-subtext">vs. market average +1.42%</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-title">BTC Holdings</div>
+                    <div class="stat-icon btc">
+                        <i class="ti ti-currency-bitcoin"></i>
+                    </div>
+                </div>
+                <div class="stat-value">2,184.92</div>
+                <div class="stat-change positive">
+                    <i class="ti ti-arrow-up-right"></i>
+                    <span>+1.64%</span>
+                </div>
+                <div class="stat-subtext">Across 8 secure wallets</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-title">30D Performance</div>
+                    <div class="stat-icon performance">
+                        <i class="ti ti-chart-histogram"></i>
+                    </div>
+                </div>
+                <div class="stat-value">+ €12,845,209.74</div>
+                <div class="stat-change positive">
+                    <i class="ti ti-arrow-up-right"></i>
+                    <span>+15.82%</span>
+                </div>
+                <div class="stat-subtext">Outperforming benchmark by 6.3%</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-title">Active Strategies</div>
+                    <div class="stat-icon investments">
+                        <i class="ti ti-stack"></i>
+                    </div>
+                </div>
+                <div class="stat-value">17</div>
+                <div class="stat-change positive">
+                    <i class="ti ti-plus"></i>
+                    <span>3 new this month</span>
+                </div>
+                <div class="stat-subtext">8 DeFi, 6 Staking, 3 Trading</div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-links">
+                <a href="#" class="footer-link">Security</a>
+                <a href="#" class="footer-link">Audit Reports</a>
+                <a href="#" class="footer-link">Compliance</a>
+                <a href="#" class="footer-link">Support</a>
+            </div>
+            <p>Andrysik Capital Dashboard • Institutional Onecoin Asset Management Platform</p>
+            <p style="margin-top: 10px; color: rgba(148, 163, 184, 0.7);">© 2023 Andrysik Capital Technologies GmbH. All data secured on-chain. Real-time updates.</p>
+        </div>
+    </div>
+
+    <script>
+        // Blockchain transaction simulation
+        const progressFill = document.querySelector('.progress-fill');
+        const progressPercent = document.querySelector('.transaction-progress .progress-info span:last-child');
+        const transactionHash = document.querySelector('.transaction-hash');
+        const portfolioValue = document.querySelector('.value-amount');
+        const hashChars = '0123456789abcdef';
         
-          <p><img src="earn-money-unscreen.gif" width="40px" /></p>
-          <p>EARN</p>
-        </a>
-      </button>
-      <button class="footer-button">
-        <a href="#" class="flex flex-col items-center">
-          <p><img src="add-user-unscreen.gif" width="40px" /></p>
-          <p>INVITE</p>
-        </a>
-      </button>
-    </footer> -->
-
-    <!-- <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        let currentBalance = parseFloat(localStorage.getItem('currentBalance')) || 38400;
-    
-        function updateBalance() {
-          currentBalance += 2;
-          document.querySelector('.earningcounter').innerText = currentBalance.toFixed(2);
-          localStorage.setItem('currentBalance', currentBalance);
+        let progress = 65;
+        let currentValue = 94176056.89;
+        const targetValue = 95421377.07;
+        const increment = (targetValue - currentValue) / 35;
+        
+        // Generate random transaction hash
+        function generateHash() {
+            let hash = '0x';
+            for (let i = 0; i < 8; i++) {
+                hash += hashChars[Math.floor(Math.random() * hashChars.length)];
+            }
+            hash += '...';
+            for (let i = 0; i < 4; i++) {
+                hash += hashChars[Math.floor(Math.random() * hashChars.length)];
+            }
+            return hash;
         }
-    
-        function formatBalanceDisplay() {
-          document.querySelector('.earningcounter').innerText = currentBalance.toFixed(2);
-          // localStorage.clear();
+        
+        function simulateBlockchainTransaction() {
+            const interval = setInterval(() => {
+                // Update progress
+                progress += Math.random() * 4;
+                
+                // Update transaction hash occasionally
+                if (Math.random() > 0.7) {
+                    transactionHash.textContent = generateHash();
+                }
+                
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    progressPercent.textContent = "Complete!";
+                    progressFill.style.background = "var(--success-gradient)";
+                    
+                    // Update portfolio value smoothly
+                    let valueInterval = setInterval(() => {
+                        if (currentValue < targetValue) {
+                            currentValue += increment;
+                            portfolioValue.textContent = `€${currentValue.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                        } else {
+                            clearInterval(valueInterval);
+                            portfolioValue.textContent = `€${targetValue.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                        }
+                    }, 50);
+                } else {
+                    progressFill.style.width = `${progress}%`;
+                    progressPercent.textContent = `${Math.round(progress)}% Complete`;
+                }
+            }, 888800);
         }
-    
-        formatBalanceDisplay();
-        setInterval(updateBalance, 120000);
-      });
-    </script> -->
-  </body>
+        
+        // Start blockchain simulation
+        setTimeout(simulateBlockchainTransaction, 2000);
+        
+        // Animate stats cards on scroll
+        const observerOptions = {
+            threshold: 0.1
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                }
+            });
+        }, observerOptions);
+        
+        // Observe stat cards
+        document.querySelectorAll('.stat-card').forEach(card => {
+            card.style.animationPlayState = 'paused';
+            observer.observe(card);
+        });
+    </script>
+</body>
 </html>
